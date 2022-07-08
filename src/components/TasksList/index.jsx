@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { BsTrash, BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs"
 
+import Loading from "../Loading"
+
 import "./index.css"
 
 const API = 'http://localhost:5500'
@@ -72,7 +74,7 @@ function TasksList() {
     }, [])
 
     if(loading) {
-        return <p>carregando...</p>
+        return <Loading />
     }
 
     return (

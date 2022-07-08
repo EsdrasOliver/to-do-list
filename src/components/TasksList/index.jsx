@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react"
-import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs"
+import { BsTrash, BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs"
+
+import "./index.css"
 
 const API = 'http://localhost:5500'
 
-function Main() {
+function TasksList() {
 
     const [task, setTask] = useState("")
     const [todos, setTodos] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async (e) => {
+    const handleAddTask = async (e) => {
         e.preventDefault()
 
         const todo = {
@@ -27,8 +29,30 @@ function Main() {
         })
         
         setTodos((prevState) => [...prevState, todo])
-
         setTask("")
+    }
+
+    const handleEdit = async (todo) => {
+
+        todo.done = !todo.done
+
+        const data = await fetch(API + "/todos/" + todo.id, {
+            method: "PUT",
+            body: JSON.stringify(todo),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        setTodos((prevState) => prevState.map((todo) => (todo.id === data.id ? (todo = data) : (todo)) ))
+    }
+
+    const handleDelete = async (id) => {
+        await fetch(API + "/todos/" + id, {
+            method: "DELETE"
+        })
+
+        setTodos((prevState) => prevState.filter((todo) => todo.id !== id))
     }
 
     useEffect(() => {
@@ -41,7 +65,6 @@ function Main() {
                 .catch((e) => console.log(e))
 
             setLoading(false)
-
             setTodos(res)
         }
 
@@ -53,12 +76,10 @@ function Main() {
     }
 
     return (
-
-        <div>
-            <h2>Lista de tarefas</h2>
-            <form onSubmit={handleSubmit}>
-
-                <label htmlFor="task">Tarefa:</label>
+        <div className="container-todo">
+            <h2>Insira suas tarefas</h2>
+            <form onSubmit={handleAddTask}>
+                <label htmlFor="task">O que você vai fazer:</label>
                 <input 
                     type="text"
                     className="add-task-input" 
@@ -67,20 +88,21 @@ function Main() {
                     value={task || ""}
                     onChange={(e) => setTask(e.target.value)}
                 />
-
                 <input type="submit" value="Adicionar" />
-
             </form>
             <div className="list-todo">
-                <h2>Lista de tarefas</h2>
+                <h3>Lista de tarefas</h3>
                 {todos.length === 0 && <p>Não há tarefas</p>}
-                {todos.map(todo => (
+                {todos.map((todo) => (
                     <div className="todo" key={todo.id}>
-                        <h3 className={todo.done ? "todo-done" : ""}>{todo.task}</h3>
+                        <h4 className={todo.done ? "todo-done" : ""}>
+                            {todo.task}
+                        </h4>
                         <div className="actions">
-                            <span>
+                            <span onClick={() => handleEdit(todo)}>
                                 {!todo.done ? <BsBookmarkCheck /> : <BsBookmarkCheckFill />}
                             </span>
+                            <BsTrash onClick={() => handleDelete(todo.id)} />
                         </div>
                     </div>
                 ))}
@@ -89,4 +111,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default TasksList;

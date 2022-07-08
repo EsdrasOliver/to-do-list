@@ -1,0 +1,87 @@
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --gray: #131e2f;
+    --blue: #01a5b1;
+    --red: #f33131;
+    
+}
+
+.container-todo {
+    background: var(--black);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    border-radius: 5px;
+    width: 25em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.container-todo form {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    padding: 7px;
+    border: none;
+    margin: 5px 0 10px;
+}
+
+input[type="submit"] {
+    padding: 7px;
+    max-width: 90px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: var(--blue);
+    color: var(--white);
+    font-weight: 600;
+    transition: 1s;
+}
+
+input[type="submit"]:hover {
+    background: var(--white);
+    color: var(--blue);
+}
+
+.todo {
+    background: var(--gray);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 7px;
+}
+
+.todo-done {
+    text-decoration: line-through;
+    color: var(--red);
+}
+
+.todo svg {
+    font-size: 1em;
+    cursor: pointer;
+    margin-right: 1em;
+    transition: .5s;
+}
+
+.todo svg:hover {
+    color: var(--red);
+}

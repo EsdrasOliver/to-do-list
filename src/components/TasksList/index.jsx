@@ -83,6 +83,7 @@ function TasksList() {
         }
 
         load()
+
     }, [])
 
     if(loading) {

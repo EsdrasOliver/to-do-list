@@ -32,6 +32,16 @@ function TasksList() {
         
         setTodos((prevState) => [...prevState, todo])
         setTask("")
+
+        await fetch(API + "/todos")
+            .then(res => res.json())
+            .then(data => {
+                const tasks = data
+                const task = JSON.stringify(tasks.map(t => t.task))
+                localStorage.setItem("todo", task)
+                console.log(todo);
+            })
+            .catch(e => console.log(e))
     }
 
     const handleEdit = async (todo) => {
@@ -55,6 +65,8 @@ function TasksList() {
         })
 
         setTodos((prevState) => prevState.filter((todo) => todo.id !== id))
+
+        localStorage.removeItem("todo")
     }
 
     useEffect(() => {

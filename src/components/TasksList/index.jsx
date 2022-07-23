@@ -38,8 +38,6 @@ function TasksList() {
             .then(data => {
                 const tasks = data
                 const task = JSON.stringify(tasks.map(t => t.task))
-                localStorage.setItem("todo", task)
-                console.log(todo);
             })
             .catch(e => console.log(e))
     }
@@ -65,8 +63,6 @@ function TasksList() {
         })
 
         setTodos((prevState) => prevState.filter((todo) => todo.id !== id))
-
-        localStorage.removeItem("todo")
     }
 
     useEffect(() => {
@@ -83,7 +79,6 @@ function TasksList() {
         }
 
         load()
-
     }, [])
 
     if(loading) {
